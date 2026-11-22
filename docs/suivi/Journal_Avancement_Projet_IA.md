@@ -63,3 +63,91 @@
 - **Quels signes de surapprentissage ou de sous-apprentissage observez-vous ?** Un modèle purement lexical (TF-IDF) souffre de sous-apprentissage sémantique sur les synonymes ou reformulations ; l'ajout d'embeddings multilingues en semaine 2 adressera cette limite.
 - **Comment reproduire l’expérience ?** `source .venv/bin/activate && python src/stats_dataset.py && pytest -q` (sur le tag `s1`, dépendances figées dans `requirements.txt`, Python 3.11.18).
 - **Évaluation sur le test final :** Non réalisée (prévue en semaine 3 sur le système complet RAG + API + jeu d'évaluation gelé).
+
+## 4. Volet B — Déploiement et exploitation
+
+| Élément | Configuration ou action réalisée | Statut | Preuve vérifiable | Responsable |
+|---|---|---|---|---|
+| Cible de déploiement | Poste local Linux (Ubuntu 24.04) en S1 ; cible finale conteneurisée Docker Compose (`api` + `ui`) en S3 | En cours | `README.md`, `docs/semaine1/4-pipeline.md` | Aymen Elhaimer |
+| Environnement | Python 3.11.18, `.venv` isolé, `requirements.txt` aux versions figées | Validé | `requirements.txt`, `.gitignore` | Aymen Elhaimer |
+| Construction | Dockerfiles (`api` et `ui`) et `docker-compose.yml` planifiés en S3 (`T9`) | Non commencé | `docs/semaine1/4-pipeline.md` | Aymen Elhaimer |
+| Configuration et secrets | Modèle `.env.example` versionné (aucun secret dans Git ; `.env` ignoré) | Validé | `.env.example`, `.gitignore` | Aymen Elhaimer |
+| Démarrage du service | Exécution CLI fonctionnelle (`python src/agent.py "..."`) ; serveur Uvicorn (`:8000`) et Streamlit (`:8501`) en S2 | En cours | `src/agent.py`, `README.md` | Mohammed Amine Elkhaldy |
+| Réseau et accès | Non encore exposé en HTTP ; prévu en S2-3 (`127.0.0.1:8000` et CORS contrôlé) | Non commencé | `docs/architecture.png` | Mohammed Amine Elkhaldy |
+| Test de bout en bout | Parcours CLI (`question → recherche → réponse sourcée / abstention`) vérifié ; parcours UI → API en S2-4 | En cours | `tests/test_smoke.py` (`5 passed`) | Mohammed Amine Elkhaldy |
+| Performance en service | Latence moyenne locale mesurée en CLI : 1.06 ms/requête sur les 20 cas (CPU, concurrence 1) | À vérifier | Mesure EXP-02 section 3.1 | Aymen Elhaimer |
+| Surveillance | Journalisation structurée des requêtes/abstentions prévue dans l'API FastAPI en S2-3 | Non commencé | `docs/semaine1/1-descriptif.md` | Mohammed Amine Elkhaldy |
+| Mise à jour et retour arrière | Versionnement par tags Git (`semaine1-remis`, `s1`, puis `s2`, `v1.0.0`) permettant un retour immédiat | Validé | `git tag -l` sur GitHub | Mohammed Amine Elkhaldy |
+
+### 4.1 Démonstration de la version disponible
+
+- **Lieu d’exécution :** Local (Ubuntu 24.04, Python 3.11.18 dans `.venv` — pas encore déployé sur serveur/conteneur)
+- **Adresse ou procédure d’accès :** `git clone https://github.com/elkhaldymohamed16-alt/agent-recherche-documentaire.git && python3.11 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt`
+- **Scénario de démonstration :**
+  1. Lancer `python src/stats_dataset.py` pour afficher les statistiques du corpus.
+  2. Lancer `python src/agent.py "Quelle autorité supervise l'application de la loi 09-08 au Maroc ?"`.
+  3. Lancer `python src/agent.py "Quelle est la météo prévue demain à Casablanca ?"`.
+  4. Lancer `pytest -q` et `ruff check .`.
+- **Résultat attendu :** Réponse sourcée pointant sur `03-conformite-loi-09-08-rgpd.md` (CNDP) à l'étape 2 ; `abstention: true` et `citations: []` à l'étape 3 ; `5 passed` et `All checks passed!` à l'étape 4.
+- **Résultat observé :** Conforme à l'attendu (`score_max: 0.4225` sur la question Loi 09-08 ; `abstention: true` sur la question météo ; `5 passed` en 1,68 s ; `ruff` muet).
+- **Limites connues :** Pas encore d'API HTTP ni d'interface Streamlit actives ; recherche encore lexicale (TF-IDF) sans synthèse par LLM.
+- **Preuve datée :** Tag Git `s1` (`22/11/2026`) et suite `tests/test_smoke.py`.
+
+## 5. Sécurité et protection des données
+
+| Point de contrôle | Développement : mesure intégrée au code | Déploiement : configuration ou contrôle | Statut / preuve |
+|---|---|---|---|
+| Validation des entrées | Refus des questions vides ou composées d'espaces (`ValueError` dans `src/agent.py`) ; validation Pydantic prévue en S2-3 | Limitation de taille (`max_length`) et types MIME PDF/MD lors de `/ingest` en S2 | En cours (`tests/test_smoke.py::test_question_vide_est_refusee`) |
+| Authentification et droits | Hors périmètre SSO/RBAC ; protection optionnelle par clé `X-API-Key` prévue sur `/ingest` en S2 | Clé injectée par variable d'environnement uniquement | Non commencé (prévu S2) |
+| Secrets | Aucun secret dans le code ; `.env.example` ne contient que des valeurs fictives (`changez-moi`) | `.env` listé dans `.gitignore` ; vérifié avant chaque commit | Validé (`.gitignore`, `.env.example`) |
+| Données personnelles | Corpus 100 % public/synthétique ; aucune donnée personnelle (CIN, noms clients, emails) | Aucun stockage de requêtes personnelles côté serveur | Validé (`data/sample/`, `03-conformite-loi-09-08-rgpd.md`) |
+| Modèles et dépendances | Versions figées dans `requirements.txt` (`scikit-learn==1.5.*`, `fastapi==0.115.*`, `pypdf==5.1.*`) | Installation reproductible vérifiée dans `.venv` neuf | Validé (`requirements.txt`) |
+| Journaux | Aucune clé ni donnée sensible journalisée | Règle appliquée dès la mise en place de l'API FastAPI en S2 | En cours |
+
+- **Risque principal restant :** Risque d'injection de prompt (prompt injection) si un document externe contient des instructions malveillantes lors du branchement du LLM en semaine 2.
+- **Action corrective, responsable et échéance :** Isoler strictement les extraits récupérés entre balises de contexte dans le prompt système et vérifier les citations retournées (`verify_citations`) — Responsable : Mohammed Amine Elkhaldy, échéance : S2 (`29/11/2026`).
+
+## 6. Contributions individuelles
+
+| Étudiant | Contribution de développement | Contribution de déploiement | Preuve personnelle | Ce qu’il/elle expliquera à l’oral |
+|---|---|---|---|---|
+| Mohammed Amine Elkhaldy | Descriptif (`1-descriptif.md`), maquettes PNG (`3-maquette.md`), squelette exécutable `src/agent.py` + `tests/test_smoke.py` (`S1-4`), fiche suivi S1 (`S1-6`) | Initialisation dépôt, `.gitignore`, `README.md` (`S1-1`), gestion des tags Git (`semaine1-remis`, `s1`) | Commit `0dbbeea` (https://github.com/elkhaldymohamed16-alt/agent-recherche-documentaire/commit/0dbbeea), `src/agent.py`, `docs/semaine1/img/` | L'architecture RAG en couches, le fonctionnement de la recherche + seuil d'abstention et les choix de découplage |
+| Aymen Elhaimer | Constitution du corpus échantillon 3 MD + 2 PDF et des 20 questions (`2-dataset.md`), pipeline des tâches (`4-pipeline.md`), script `src/stats_dataset.py` et `docs/architecture.png` (`S1-5`) | Configuration reproductible `requirements.txt`, `.env.example`, `pytest.ini` (`S1-3`) et revue croisée des PRs | Commit `d34715f` (https://github.com/elkhaldymohamed16-alt/agent-recherche-documentaire/commit/d34715f), `data/sample/`, `src/stats_dataset.py` | La conception du corpus/jeu de test (20 cas), les statistiques de qualité des données et la reproductibilité de l'environnement |
+
+## 7. Blocages, décisions et demandes d’aide
+
+| Blocage / question | Impact | Tentatives déjà réalisées et résultats | Aide ou décision attendue | Responsable / échéance |
+|---|---|---|---|---|
+| Faux positif sur question hors corpus (`EXP-01`) | La question météo dépassait le seuil `0.18` à cause des mots-outils français | Ajout de `STOP_WORDS_FR` dans `TfidfVectorizer` (`EXP-02`) : résolu (`abstention: 1/1`, `5 passed`) | Aucune aide requise (résolu) | Mohammed Amine Elkhaldy (résolu le 22/11/2026) |
+| Poids élevé de PyTorch / `sentence-transformers` en CI | Risque de timeouts ou lenteur sur clone neuf en CI GitHub Actions | Séparation envisagée entre baseline légère pour la CI rapide et backend embeddings/ChromaDB optionnel | Validation de cette stratégie lors du point S2 | Aymen Elhaimer (26/11/2026) |
+
+| Décision prise | Alternatives examinées | Justification | Conséquence sur le projet |
+|---|---|---|---|
+| Démarrer S1 avec une baseline TF-IDF déterministe avant ChromaDB + LLM en S2 | Installer directement LangChain + PyTorch + Ollama dès S1 | Garantit un squelette rapide, testable sans GPU ni clé API dès la semaine 1 et fournit une référence chiffrée pour mesurer le gain du RAG sémantique | Permet une comparaison rigoureuse EXP-02 (TF-IDF) vs EXP-03 (ChromaDB/embeddings) en semaine 2 |
+| Utiliser un seuil d'abstention explicite (`SEUIL_ABSTENTION`) | Laisser le modèle toujours renvoyer le passage le plus proche | Empêche l'agent d'inventer des réponses ou citations sur des questions hors périmètre | Oblige à calibrer le seuil à chaque changement de représentation vectorielle |
+
+## 8. Plan jusqu’au prochain suivi (Semaine 2 — tag `s2`)
+
+| Priorité | Tâche | Volet : développement / déploiement | Responsable | Échéance | Critère de réussite et preuve prévue |
+|---|---|---|---|---|---|
+| 1 | Implémenter le moteur RAG enrichi (`S2-1`) et le script d'évaluation complet sur les 20 questions (`S2-2`) | Développement | Aymen Elhaimer | 25/11/2026 | `docs/evaluation.md` généré avec `Recall@3 >= 90 %` et 100 % d'abstention hors corpus |
+| 2 | Développer l'API FastAPI (`/health`, `/ingest`, `/ask`) avec schémas Pydantic v2 et tests (`S2-3`) | Développement | Mohammed Amine Elkhaldy | 27/11/2026 | `pytest tests/test_api.py` 100 % vert (200/422/503/500) et page `/docs` fonctionnelle |
+| 3 | Relier l'interface Streamlit à l'API (`S2-4`), activer la CI GitHub Actions `ruff` + `pytest` (`S2-5`) et livrer la fiche S2 + tag `s2` (`S2-6`) | Déploiement | Mohammed Amine Elkhaldy & Aymen Elhaimer | 29/11/2026 | Coche verte Actions sur `main`, capture d'écran dans `docs/` et tag `s2` poussé |
+
+## 9. Retour de l’enseignant et prise en compte
+
+- **Observations de l’enseignant :** *[À compléter après la séance de suivi S1]*
+- **Corrections demandées :** *[À compléter après la séance de suivi S1]*
+- **Actions retenues par le groupe :** *[À compléter après la séance de suivi S1]*
+- **Vérification au suivi suivant :** *[À compléter en semaine 2]*
+
+## 10. Vérification avant remise
+
+- [x] La date, les membres et la version présentée sont renseignés.
+- [x] Le développement et le déploiement sont distingués.
+- [x] Chaque résultat annoncé possède une preuve accessible à l’enseignant.
+- [x] Les mesures indiquent leur protocole et leurs conditions.
+- [x] Les blocages décrivent les tentatives déjà effectuées.
+- [x] Chaque membre a une contribution identifiable.
+- [x] Les prochaines tâches ont un responsable, une échéance et un critère de réussite.
+- [x] Les secrets et les données personnelles ont été retirés des preuves.
