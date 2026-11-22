@@ -1,0 +1,125 @@
+% =====================================================================
+%  Compte rendu de projet
+%  Module : Développement et déploiement d'applications intelligentes
+%  Modèle à suivre obligatoirement. Compiler avec : latexmk -pdf main.tex
+% =====================================================================
+\documentclass[11pt,a4paper]{article}
+
+% ---------- Encodage, langue, police ----------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[french]{babel}
+\usepackage{csquotes}
+
+% ---------- Mise en page ----------
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\setlength{\parskip}{0.5em}
+
+% ---------- Tableaux, figures, code ----------
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{caption}
+\usepackage{float}
+\usepackage[table]{xcolor}
+\usepackage{listings}
+\usepackage[most]{tcolorbox}
+\usepackage[round]{natbib}
+\usepackage[hidelinks]{hyperref}
+
+% =====================================================================
+%  1. INFORMATIONS DU PROJET : à remplir par l'équipe
+% =====================================================================
+\newcommand{\titreprojet}{Titre du projet}
+\newcommand{\numeroprojet}{N° du catalogue (ou hors catalogue)}
+\newcommand{\nomequipe}{Équipe XX}
+\newcommand{\depot}{https://github.com/organisation/depot-equipe}
+\newcommand{\versionfinale}{v1.0 (étiquette Git de la version rendue)}
+\newcommand{\enseignant}{Nom de l'enseignant}
+\newcommand{\daterendu}{JJ/MM/AAAA}
+
+% Une ligne par membre (2 à 4) : Nom \& Prénom & compte GitHub & rôle principal \\
+\newcommand{\membres}{%
+  Nom Prénom 1 & @github1 & Rôle principal \\
+  Nom Prénom 2 & @github2 & Rôle principal \\
+  % Nom Prénom 3 & @github3 & Rôle principal \\
+  % Nom Prénom 4 & @github4 & Rôle principal \\
+}
+
+% =====================================================================
+%  2. CONSIGNES : passer à \consignesfalse pour la version rendue
+% =====================================================================
+\newif\ifconsignes
+\consignestrue
+% \consignesfalse
+
+\newtcolorbox{boiteconsigne}{colback=blue!4, colframe=blue!50!black,
+  fonttitle=\bfseries\small, fontupper=\small, title=Consigne, breakable}
+\newcommand{\consigne}[1]{\ifconsignes\begin{boiteconsigne}#1\end{boiteconsigne}\fi}
+
+% Zone à compléter, en rouge pour qu'aucune ne soit oubliée
+\newcommand{\acompleter}[1][à compléter]{\textcolor{red}{\textbf{[#1]}}}
+
+% Rédacteur(s) de la section : sert de preuve de contribution
+\newcommand{\redacteur}[1]{\noindent\textit{\small Rédaction : #1}\par\medskip}
+
+% Figure ou emplacement réservé si le fichier n'existe pas encore
+% Usage : \figure{fichier}{largeur}{légende}{étiquette}
+\newcommand{\insererfigure}[4]{%
+  \begin{figure}[H]\centering
+  \IfFileExists{figures/#1}%
+    {\includegraphics[width=#2\linewidth]{figures/#1}}%
+    {\fbox{\parbox[c][4cm][c]{#2\linewidth}{\centering\textcolor{red}{Figure manquante : figures/#1}}}}%
+  \caption{#3}\label{#4}\end{figure}}
+
+% ---------- Style du code ----------
+\lstdefinestyle{code}{
+  basicstyle=\ttfamily\footnotesize, numbers=left, numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue!70!black}\bfseries, commentstyle=\color{green!45!black},
+  stringstyle=\color{orange!70!black}, frame=single, rulecolor=\color{gray!40},
+  backgroundcolor=\color{gray!4}, breaklines=true, showstringspaces=false,
+  captionpos=b, tabsize=4,
+  literate={é}{{\'e}}1 {è}{{\`e}}1 {ê}{{\^e}}1 {à}{{\`a}}1 {ç}{{\c c}}1
+           {ù}{{\`u}}1 {ô}{{\^o}}1 {î}{{\^i}}1 {É}{{\'E}}1 {«}{{\guillemotleft}}1 {»}{{\guillemotright}}1
+}
+\lstset{style=code}
+\renewcommand{\lstlistingname}{Extrait}
+
+% ---------- En-tête et pied de page ----------
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\nomequipe}
+\fancyhead[R]{\small\titreprojet}
+\fancyfoot[C]{\thepage}
+
+% =====================================================================
+\begin{document}
+
+\input{sections/00-page-de-garde}
+\input{sections/00-resume}
+
+\tableofcontents
+\newpage
+
+\input{sections/01-introduction}
+\input{sections/02-cahier-des-charges}
+\input{sections/03-donnees}
+\input{sections/04-architecture}
+\input{sections/05-implementation}
+\input{sections/06-qualite-deploiement}
+\input{sections/07-evaluation}
+\input{sections/08-securite-ethique}
+\input{sections/09-gestion-projet}
+\input{sections/10-conclusion}
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\appendix
+\input{sections/annexes}
+
+\end{document}

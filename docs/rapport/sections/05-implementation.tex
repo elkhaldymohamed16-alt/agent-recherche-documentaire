@@ -1,0 +1,32 @@
+\section{Implémentation}
+\redacteur{\acompleter[nom]}
+
+\consigne{Ne recopiez pas votre code : le dépôt est là pour ça. Montrez l'organisation du code, les points d'entrée de l'API et deux ou trois extraits courts (moins de 20 lignes) qui éclairent un choix important. Les prompts complets vont en annexe.}
+
+\subsection{Organisation du dépôt}
+\acompleter[arborescence commentée des dossiers principaux]
+
+\subsection{API}
+
+\begin{table}[H]\centering
+\caption{Points d'entrée de l'API}\label{tab:api}
+\begin{tabularx}{\linewidth}{llX}
+\toprule
+\textbf{Méthode} & \textbf{Route} & \textbf{Rôle} \\
+\midrule
+POST & \texttt{/ask} & \acompleter \\
+GET & \texttt{/health} & Vérification de l'état du service \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Extraits significatifs}
+
+\begin{lstlisting}[language=Python, caption={Exemple : route principale de l'API (à remplacer)}, label={lst:api}]
+@app.post("/ask")
+def ask(question: Question) -> Answer:
+    passages = retriever.search(question.text, k=5)
+    return agent.answer(question.text, passages)
+\end{lstlisting}
+
+\acompleter[explication de l'extrait~\ref{lst:api}]

@@ -1,0 +1,29 @@
+\section{Architecture}
+\redacteur{\acompleter[nom]}
+
+\consigne{Le schéma est obligatoire. Partez du schéma Mermaid du livrable 3, exportez-le en PDF ou PNG (par exemple sur mermaid.live) et placez-le dans \texttt{figures/}. Chaque composant du schéma est expliqué dans le texte et chaque choix technique est justifié face à au moins une alternative.}
+
+\insererfigure{architecture.pdf}{0.95}{Architecture du système}{fig:architecture}
+
+\subsection{Composants}
+
+\begin{table}[H]\centering
+\caption{Composants et choix techniques}\label{tab:composants}
+\begin{tabularx}{\linewidth}{lllX}
+\toprule
+\textbf{Composant} & \textbf{Technologie} & \textbf{Alternative écartée} & \textbf{Justification} \\
+\midrule
+Modèle & \acompleter & \acompleter & \acompleter \\
+Recherche ou mémoire & \acompleter{} & \acompleter{} & \acompleter{} (voir par exemple \citet{lewis2020rag}) \\
+API & FastAPI \citep{fastapi} & \acompleter & \acompleter \\
+Interface & \acompleter & \acompleter & \acompleter \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Parcours d'une requête}
+\acompleter[de l'action de l'utilisateur jusqu'à la réponse, en suivant la figure~\ref{fig:architecture}]
+
+\subsection{Agents et orchestration}
+\consigne{Rôle de chaque agent, outils qu'il peut appeler, façon dont les agents échangent. Obligatoire pour une équipe de 4.}
+\acompleter

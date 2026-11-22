@@ -1,0 +1,21 @@
+\section{Qualité logicielle et déploiement}
+\redacteur{\acompleter[nom]}
+
+\consigne{Correspond aux critères P4 et P5 de la grille. Donnez des faits vérifiables : nombre de tests, couverture mesurée, lien vers la dernière exécution de la CI, commande de lancement.}
+
+\subsection{Tests}
+\acompleter[types de tests, outils, nombre, couverture]
+
+\subsection{Intégration continue}
+\acompleter[étapes du workflow GitHub Actions, lien vers une exécution réussie]
+
+\subsection{Conteneurisation et lancement}
+
+\begin{lstlisting}[language=bash, caption={Lancement de l'application}]
+docker build -t nom-projet .
+docker run -p 8000:8000 --env-file .env nom-projet
+\end{lstlisting}
+
+\subsection{Suivi des expériences et des données}
+\consigne{Si vous utilisez MLflow ou DVC, montrez ce qui est suivi et comment. Sinon, écrivez « non utilisé » et pourquoi.}
+\acompleter
