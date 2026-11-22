@@ -1,0 +1,142 @@
+[
+  {
+    "id": 1,
+    "question": "Quels sont les trois artefacts à versionner dans une application IA ?",
+    "source_attendue": "01-guide-mlops-architecture.md",
+    "section": "Section 1",
+    "type": "factuelle"
+  },
+  {
+    "id": 2,
+    "question": "Pourquoi les fichiers .joblib ne doivent-ils pas entrer dans Git ?",
+    "source_attendue": "01-guide-mlops-architecture.md",
+    "section": "Section 1",
+    "type": "factuelle"
+  },
+  {
+    "id": 3,
+    "question": "Quel est le rôle de la couche présentation (ui/) dans l'architecture ?",
+    "source_attendue": "01-guide-mlops-architecture.md",
+    "section": "Section 2",
+    "type": "factuelle"
+  },
+  {
+    "id": 4,
+    "question": "Qu'est-ce que la dérive des données (data drift) ?",
+    "source_attendue": "01-guide-mlops-architecture.md",
+    "section": "Section 3",
+    "type": "factuelle"
+  },
+  {
+    "id": 5,
+    "question": "Quelle taille de chunk et quel overlap sont recommandés pour le découpage RAG ?",
+    "source_attendue": "02-bonnes-pratiques-rag.md",
+    "section": "Section 1",
+    "type": "factuelle"
+  },
+  {
+    "id": 6,
+    "question": "Quelles métadonnées chaque chunk doit-il obligatoirement conserver ?",
+    "source_attendue": "02-bonnes-pratiques-rag.md",
+    "section": "Section 1",
+    "type": "factuelle"
+  },
+  {
+    "id": 7,
+    "question": "Quel modèle d'embeddings multilingue est recommandé sur CPU et combien a-t-il de dimensions ?",
+    "source_attendue": "02-bonnes-pratiques-rag.md",
+    "section": "Section 2",
+    "type": "factuelle"
+  },
+  {
+    "id": 8,
+    "question": "Combien de passages top-k sont récupérés par défaut lors de la recherche cosinus ?",
+    "source_attendue": "02-bonnes-pratiques-rag.md",
+    "section": "Section 2",
+    "type": "factuelle"
+  },
+  {
+    "id": 9,
+    "question": "Quel est le seuil d'abstention par défaut d'un système RAG et que répond-il en dessous ?",
+    "source_attendue": "02-bonnes-pratiques-rag.md",
+    "section": "Section 3",
+    "type": "factuelle"
+  },
+  {
+    "id": 10,
+    "question": "Quelle autorité supervise l'application de la loi 09-08 au Maroc ?",
+    "source_attendue": "03-conformite-loi-09-08-rgpd.md",
+    "section": "Section 1",
+    "type": "factuelle"
+  },
+  {
+    "id": 11,
+    "question": "Quels principes la loi 09-08 impose-t-elle pour le traitement des données personnelles ?",
+    "source_attendue": "03-conformite-loi-09-08-rgpd.md",
+    "section": "Section 1",
+    "type": "factuelle"
+  },
+  {
+    "id": 12,
+    "question": "Peut-on indexer des numéros CIN ou dossiers médicaux réels dans une base vectorielle de développement ?",
+    "source_attendue": "03-conformite-loi-09-08-rgpd.md",
+    "section": "Section 2",
+    "type": "factuelle"
+  },
+  {
+    "id": 13,
+    "question": "Comment se protéger contre les attaques par injection de prompt dans un RAG ?",
+    "source_attendue": "03-conformite-loi-09-08-rgpd.md",
+    "section": "Section 3",
+    "type": "factuelle"
+  },
+  {
+    "id": 14,
+    "question": "Comment une API FastAPI doit-elle charger son modèle au démarrage ?",
+    "source_attendue": "04-guide-fastapi-tests.pdf",
+    "section": "Section 1",
+    "type": "pdf"
+  },
+  {
+    "id": 15,
+    "question": "Quel code HTTP renvoie l'API pour une entrée vide ou composée d'espaces ?",
+    "source_attendue": "04-guide-fastapi-tests.pdf",
+    "section": "Section 2",
+    "type": "pdf"
+  },
+  {
+    "id": 16,
+    "question": "Quelle est la différence entre les codes 503 et 500 dans l'API ?",
+    "source_attendue": "04-guide-fastapi-tests.pdf",
+    "section": "Section 2",
+    "type": "pdf"
+  },
+  {
+    "id": 17,
+    "question": "Pourquoi copier requirements.txt avant le code source dans un Dockerfile ?",
+    "source_attendue": "05-guide-docker-deploiement.pdf",
+    "section": "Section 1",
+    "type": "pdf"
+  },
+  {
+    "id": 18,
+    "question": "Quelle URL interne le conteneur Streamlit utilise-t-il pour appeler FastAPI dans Docker Compose ?",
+    "source_attendue": "05-guide-docker-deploiement.pdf",
+    "section": "Section 2",
+    "type": "pdf"
+  },
+  {
+    "id": 19,
+    "question": "Comment combiner les règles d'architecture découplée et Docker Compose pour déployer l'interface et l'API ?",
+    "source_attendue": "01-guide-mlops-architecture.md + 05-guide-docker-deploiement.pdf",
+    "section": "Multi-sources",
+    "type": "synthese"
+  },
+  {
+    "id": 20,
+    "question": "Quelle est la météo prévue demain à Casablanca ?",
+    "source_attendue": "ABSTENTION (hors corpus)",
+    "section": "Aucune",
+    "type": "hors-corpus"
+  }
+]

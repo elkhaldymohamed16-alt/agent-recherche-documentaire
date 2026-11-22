@@ -1,0 +1,68 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+5 0 obj
+<< /Length 1259 >>
+stream
+BT
+/F1 14 Tf
+50 760 Td
+(Guide technique : Exposition d'un service IA avec FastAPI) Tj
+/F1 10 Tf
+0 -26 Td
+(Page 1 - Section 1 : Chargement unique par lifespan) Tj
+0 -16 Td
+(Une API FastAPI charge son modele ou son index vectoriel une seule fois au demarrage) Tj
+0 -16 Td
+(via le gestionnaire lifespan et le stocke dans app.state. Si l'artefact manque,) Tj
+0 -16 Td
+(le service doit echouer immediatement \(fail-fast\) plutot que de servir des erreurs 503.) Tj
+0 -16 Td
+() Tj
+0 -16 Td
+(Section 2 : Contrats Pydantic et codes HTTP) Tj
+0 -16 Td
+(Pydantic v2 valide chaque requete avant l'execution de la route. Une entree vide,) Tj
+0 -16 Td
+(composee uniquement d'espaces ou de mauvais type renvoie un code HTTP 422 avec detail en liste.) Tj
+0 -16 Td
+(Une indisponibilite temporaire du modele renvoie 503 ; une panne interne renvoie 500) Tj
+0 -16 Td
+(sans jamais exposer la trace Python au client.) Tj
+0 -16 Td
+() Tj
+0 -16 Td
+(Section 3 : Tests et qualite logicielle) Tj
+0 -16 Td
+(Les endpoints sont testes en memoire avec TestClient sans lancer de serveur reseau.) Tj
+0 -16 Td
+(Les outils ruff \(linting\), mypy \(typage statique\) et pytest-cov \(couverture >= 85%\)) Tj
+0 -16 Td
+(sont executes automatiquement dans GitHub Actions a chaque push.) Tj
+0 -16 Td
+ET
+endstream
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000241 00000 n 
+0000000311 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+1622
+%%EOF
