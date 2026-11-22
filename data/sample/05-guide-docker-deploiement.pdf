@@ -1,0 +1,64 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+5 0 obj
+<< /Length 1155 >>
+stream
+BT
+/F1 14 Tf
+50 760 Td
+(Guide technique : Conteneurisation avec Docker et Docker Compose) Tj
+/F1 10 Tf
+0 -26 Td
+(Page 1 - Section 1 : Principes du Dockerfile pour Python) Tj
+0 -16 Td
+(Utiliser une image officielle legere telle que python:3.11-slim. Copier requirements.txt) Tj
+0 -16 Td
+(avant le code source afin d'exploiter le cache des couches Docker lors des reconstructions.) Tj
+0 -16 Td
+(Ne jamais copier le dossier .venv ni le fichier .env dans l'image finale \(.dockerignore\).) Tj
+0 -16 Td
+() Tj
+0 -16 Td
+(Section 2 : Orchestration multi-services avec Docker Compose) Tj
+0 -16 Td
+(L'application complete comprend deux services principaux : le conteneur api \(FastAPI sur) Tj
+0 -16 Td
+(le port 8000\) et le conteneur ui \(Streamlit sur le port 8501\) qui communique via le reseau) Tj
+0 -16 Td
+(interne Docker avec API_URL=http://api:8000. Un volume persiste l'index ChromaDB.) Tj
+0 -16 Td
+() Tj
+0 -16 Td
+(Section 3 : Verification de sante \(Healthcheck\)) Tj
+0 -16 Td
+(Chaque conteneur declare un HEALTHCHECK interrogeant GET /health afin de permettre) Tj
+0 -16 Td
+(a l'orchestrateur de redemarrer automatiquement un service bloque.) Tj
+0 -16 Td
+ET
+endstream
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000241 00000 n 
+0000000311 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+1518
+%%EOF
